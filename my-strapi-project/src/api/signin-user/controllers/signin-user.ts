@@ -44,9 +44,13 @@ export default {
         return ctx.unauthorized("Invalid password");
       }
 
-      // Check if user is confirmed or blocked (optional)
+      // Check if user is not confirmed or blocked (optional)
       if (user.blocked) {
         return ctx.unauthorized("Account is blocked");
+      }
+
+      if (!user.confirmed) {
+        return ctx.unauthorized("Please confirm your email before logging in");
       }
 
       // ✅ Create JWT using Strapi v5 way
