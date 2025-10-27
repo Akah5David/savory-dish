@@ -79,6 +79,8 @@ export default function NewPostPage() {
 
     setIsSubmitting(true);
 
+    const BASE_URL =
+      process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
     try {
       // Create FormData for multipart/form-data
       const formDataToSend = new FormData();
@@ -111,7 +113,7 @@ export default function NewPostPage() {
         console.log(key, value);
       }
       // Send POST request to Strapi
-      const response = await fetch("http://localhost:1337/api/posts", {
+      const response = await fetch(`${BASE_URL}/api/posts`, {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
         body: formDataToSend,

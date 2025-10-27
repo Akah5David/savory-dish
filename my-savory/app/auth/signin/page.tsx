@@ -42,8 +42,11 @@ export default function SignIn() {
     setErrors({});
     setLoading(true);
 
+    const BASE_URL =
+      process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
+      
     try {
-      const response = await fetch("http://localhost:1337/api/auth/local", {
+      const response = await fetch(`${BASE_URL}/api/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

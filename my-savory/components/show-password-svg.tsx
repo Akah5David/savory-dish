@@ -53,15 +53,15 @@ export default function ShowPasswordSvg({
               <path
                 fill="none"
                 stroke="#000"
-                stroke-width="3"
-                stroke-miterlimit="10"
+                strokeWidth="3"
+                strokeMiterlimit="10"
                 d="M1,32c0,0,11,15,31,15s31-15,31-15S52,17,32,17 S1,32,1,32z"
               />
               <circle
                 fill="none"
                 stroke="#000"
-                stroke-width="2"
-                stroke-miterlimit="10"
+                strokeWidth="2"
+                strokeMiterlimit="10"
                 cx="32"
                 cy="32"
                 r="7"
@@ -69,8 +69,8 @@ export default function ShowPasswordSvg({
               <line
                 fill="none"
                 stroke="#000"
-                stroke-width="2"
-                stroke-miterlimit="10"
+                strokeWidth="2"
+                strokeMiterlimit="10"
                 x1="9"
                 y1="55"
                 x2="55"

@@ -2,7 +2,7 @@
 
 import useSWR, { mutate } from "swr";
 import Link from "next/link";
-import { fetcher, POSTS_API_URL } from "@/data/posts";
+import { fetcher, POSTS_API_URL, BASE_URL } from "@/data/posts";
 import { type Post } from "@/components/post-card";
 import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/navigation";
@@ -29,9 +29,7 @@ export default function PostClient({
   useEffect(() => {
     const fetchDelicacyId = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:1337/api/delicacies?populate=*"
-        );
+        const response = await fetch(`${BASE_URL}/api/delicacies?populate=*`);
         const result = await response.json();
 
         console.log("Result", result);
@@ -76,15 +74,12 @@ export default function PostClient({
     }
 
     try {
-      const response = await fetch(
-        `http://localhost:1337/api/delete/${delicacyId}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${JwtToken}`,
-          },
-        }
-      );
+      const response = await fetch(`${BASE_URL}/api/delete/${delicacyId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${JwtToken}`,
+        },
+      });
 
       const result = await response.json();
 

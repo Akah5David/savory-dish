@@ -59,17 +59,16 @@ export default function SignUp() {
       password: data.password,
     };
 
+    const BASE_URL = process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
+
     try {
-      const response = await fetch(
-        "http://localhost:1337/api/auth/local/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(strapiDataFormat),
-        }
-      );
+      const response = await fetch(`${BASE_URL}/api/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(strapiDataFormat),
+      });
 
       const result = await response.json();
       console.log("Signup result", result);

@@ -19,7 +19,13 @@ export const fetcher = async (url: string) =>
       console.log("Fetching data from Api output", resData);
       const formattedData = resData.data.map((item: any) => {
         const attrs = item || {};
-        const BASE_URL = "http://localhost:1337";
+        try {
+          const BASE_URL =
+            process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
+          console.log("Base URL is here: ", BASE_URL);
+        } catch (error) {
+          console.error("Error accessing BASE_URL:", error);
+        }
 
         console.log("this is attrs for item attribute", attrs);
         const createdAt =
@@ -41,4 +47,6 @@ export const fetcher = async (url: string) =>
       return { posts: formattedData };
     });
 
-export const POSTS_API_URL = "http://localhost:1337/api/delicacies?populate=*";
+export const POSTS_API_URL = `${process.env.NEXT_PUBLIC_STRAPI_BASE_URL}/api/delicacies?populate=*`;
+export const BASE_URL =
+  process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";

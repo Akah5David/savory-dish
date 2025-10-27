@@ -61,7 +61,7 @@ function extractTextFromRichText(richText: string): string {
     .join(" ");
 }
 
-const BASE_URL = "http://localhost:1337";
+const BASE_URL =process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
 
 async function fetchDelicacies(): Promise<Delicacy[]> {
   const res = await fetch(POSTS_API_URL);
@@ -129,7 +129,7 @@ export default function HomePage() {
     }
 
     try {
-      const res = await fetch("http://localhost:1337/api/subscription", {
+      const res = await fetch(`$BASE_URL/api/subscription`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
