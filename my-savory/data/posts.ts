@@ -19,9 +19,10 @@ export const fetcher = async (url: string) =>
       console.log("Fetching data from Api output", resData);
       const formattedData = resData.data.map((item: any) => {
         const attrs = item || {};
+        const BASE_URL =
+          process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
+          
         try {
-          const BASE_URL =
-            process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
           console.log("Base URL is here: ", BASE_URL);
         } catch (error) {
           console.error("Error accessing BASE_URL:", error);
