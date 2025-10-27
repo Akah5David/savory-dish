@@ -42,12 +42,14 @@ export default function UpdateDelicacy({
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const BASE_URL =
+    process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
   // 🔹 Fetch existing delicacy data by slug
   useEffect(() => {
     async function fetchDelicacy() {
       try {
         const response = await fetch(
-          `http://localhost:1337/api/delicacies?filters[slug][$eq]=${slug}&populate=image`
+          `${BASE_URL}/api/delicacies?filters[slug][$eq]=${slug}&populate=image`
         );
 
         const data = await response.json();
@@ -88,11 +90,9 @@ export default function UpdateDelicacy({
 
         // Prefill image preview
         if (attributes.image?.url) {
-          const imageUrl = attributes.image.url.startsWith(
-            "http"
-          )
-            ? attributes.image.data.attributes.url
-            : `http://localhost:1337${attributes.image.url}`;
+          const imageUrl = attributes.image.url.startsWith("http")
+            ? attributes.image.url
+            : `${BASE_URL}${attributes.image.url}`;
           setImagePreview(imageUrl);
         }
       } catch (err) {
@@ -172,16 +172,13 @@ export default function UpdateDelicacy({
       if (!token)
         throw new Error("Authentication required. Please log in first.");
 
-      const response = await fetch(
-        `http://localhost:1337/api/update/${delicacyId}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formDataToSend,
-        }
-      );
+      const response = await fetch(`${BASE_URL}/api/${delicacyId}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formDataToSend,
+      });
 
       const data = await response.json();
 

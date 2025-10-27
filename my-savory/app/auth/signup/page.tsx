@@ -59,10 +59,11 @@ export default function SignUp() {
       password: data.password,
     };
 
-    const BASE_URL = process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
+    const BASE_URL =
+      process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
 
     try {
-      const response = await fetch(`${BASE_URL}/api/signup`, {
+      const response = await fetch(`${BASE_URL}/api/signup/signup`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
