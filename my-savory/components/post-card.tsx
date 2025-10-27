@@ -8,11 +8,11 @@ export type Post = {
   id: string;
   slug: string;
   title: string;
-  excerpt: string;
+  excerpt: [{ children: [{ type: string; text: string }] }];
   category: string;
   date: string;
   readingTime: string;
-  image: string;
+  image: { url: string };
 };
 
 export function PostCard({ post }: { post: Post }) {
@@ -35,7 +35,7 @@ export function PostCard({ post }: { post: Post }) {
       <Link href={`/blog/${post.slug}`} className="block">
         {/* Using placeholder image utility per guidelines */}
         <img
-          src={post.image}
+          src={post.image.url}
           alt={post.title}
           className="h-48 w-full object-cover"
           loading="lazy"
@@ -54,7 +54,7 @@ export function PostCard({ post }: { post: Post }) {
             {post.title}
           </h3>
           <p className="text-sm text-muted-foreground line-clamp-2">
-            {post.excerpt}
+            {post.excerpt[0]?.children[0]?.text}
           </p>
         </div>
       </Link>
