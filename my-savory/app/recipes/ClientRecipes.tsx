@@ -1,7 +1,7 @@
 "use client";
 import useSWR from "swr";
 
-import { fetcher, POSTS_API_URL as GET_DELICACIES_API_URL } from "@/data/posts";
+import { fetcher, POSTS_API_URL } from "@/data/posts";
 import { PostCard } from "@/components/post-card";
 import Link from "next/link";
 import { PageTransition } from "@/components/page-transition";
@@ -23,7 +23,7 @@ export default function ClientRecipes({
   initialData?: Post[];
 }) {
   const { data, isLoading } = useSWR<{ posts: Post[] }>(
-    GET_DELICACIES_API_URL,
+    POSTS_API_URL,
     fetcher,
     { fallbackData: initialData ? { posts: initialData } : undefined }
   );
