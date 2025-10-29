@@ -40,7 +40,7 @@ exports.default = {
                 username: username || safeEmail,
                 email: safeEmail,
                 password, // Strapi hashes this automatically
-                confirmed: false,
+                confirmed: true,
                 provider: "local",
             });
             // ✅ Remove password before sending
