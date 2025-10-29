@@ -10,11 +10,11 @@ export type Post = {
   id: string;
   slug: string;
   title: string;
-  excerpt: [{ children: [{ type: string; text: string }] }];
+  excerpt: string;
   category: string;
   date: string;
   readingTime: string;
-  image: { url: string };
+  image: string;
 };
 
 export default function ClientRecipes({
