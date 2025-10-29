@@ -61,10 +61,11 @@ function extractTextFromRichText(richText: string): string {
     .join(" ");
 }
 
-const BASE_URL =process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
+const BASE_URL =
+  process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
 
 async function fetchDelicacies(): Promise<Delicacy[]> {
-  const res = await fetch(POSTS_API_URL);
+  const res = await fetch(`${BASE_URL}/api/delicacies?populate=*`);
 
   if (!res.ok) throw new Error("Failed to fetch delicacies");
 
@@ -255,7 +256,7 @@ export default function HomePage() {
                     ? `${p.attributes.readingTime} min read`
                     : "—",
                   date: p.attributes.date,
-                  image: p.attributes.image || "",
+                  image: p.attributes.image?.url || "",
                 }}
               />
             </motion.div>

@@ -21,7 +21,7 @@ export const fetcher = async (url: string) =>
         const attrs = item || {};
         const BASE_URL =
           process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
-          
+
         try {
           console.log("Base URL is here: ", BASE_URL);
         } catch (error) {
@@ -48,6 +48,6 @@ export const fetcher = async (url: string) =>
       return { posts: formattedData };
     });
 
-export const BASE_URL =
+const BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
 export const POSTS_API_URL = `${BASE_URL}/api/delicacies?populate=*`;
