@@ -2,20 +2,9 @@
 import useSWR from "swr";
 
 import { fetcher, POSTS_API_URL } from "@/data/posts";
-import { PostCard } from "@/components/post-card";
+import { type Post, PostCard } from "@/components/post-card";
 import Link from "next/link";
 import { PageTransition } from "@/components/page-transition";
-
-export type Post = {
-  id: string;
-  slug: string;
-  title: string;
-  excerpt: [{ type: string; children: [{ type: string; text: string }] }];
-  category: string;
-  date: string;
-  readingTime: string;
-  image: { url: string };
-};
 
 export default function ClientRecipes({
   initialData,
@@ -53,17 +42,11 @@ export default function ClientRecipes({
                     id: p.id, // use documentId as id
                     title: p.title,
                     slug: p.slug,
-                    excerpt: p.excerpt
-                      ?.map((block) =>
-                        block.children?.map((child) => child.text).join(" ")
-                      )
-                      .join(" "),
+                    excerpt: p.excerpt,
                     category: p.category,
-                    readingTime: p.readingTime
-                      ? `${p.readingTime} min read`
-                      : "—",
+                    readingTime: p.readingTime,
                     date: p.date,
-                    image: p.image?.url || "",
+                    image: p.image || "",
                   }}
                 />
               ))}

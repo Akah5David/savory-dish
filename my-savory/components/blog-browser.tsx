@@ -7,20 +7,20 @@ import { type Post, PostCard } from "./post-card";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { fetcher, POSTS_API_URL } from "@/data/posts";
-import { set } from "date-fns";
 
 export function BlogBrowser() {
-  const { data, isLoading } = useSWR<{ posts: Post[] }>(POSTS_API_URL, fetcher);
-
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const reduce = useReducedMotion();
   const queryRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const { data, isLoading } = useSWR<{ posts: Post[] }>(POSTS_API_URL, fetcher);
+  console.log("Data in Blog Browser", data);
+
   useEffect(() => {
     if (data?.posts) {
-      setFilteredPosts(data.posts); // "All" should show everything by default
+      setFilteredPosts(data?.posts); // "All" should show everything by default
     }
   }, [data?.posts]);
 
@@ -62,6 +62,8 @@ export function BlogBrowser() {
           );
     setFilteredPosts(filtered);
   }
+
+  console.log("Filtered posts:", filteredPosts);
 
   return (
     <section
@@ -114,7 +116,19 @@ export function BlogBrowser() {
                   delay: reduce ? 0 : i * 0.03,
                 }}
               >
-                <PostCard post={post} />
+                <PostCard
+                  key={post.id}
+                  post={{
+                    id: post.id, // use documentId as id
+                    title: post.title,
+                    slug: post.slug,
+                    excerpt: post.excerpt,
+                    category: post.category,
+                    readingTime: post.readingTime,
+                    date: post.date,
+                    image: post.image || "",
+                  }}
+                />
               </motion.div>
             ))}
           </AnimatePresence>
