@@ -22,7 +22,7 @@ export default function ClientRecipes({
 }: {
   initialData?: Post[];
 }) {
-  const { data, isLoading } = useSWR<{ posts: Post[] }>(
+  const { data, isLoading } =  useSWR<{ posts: Post[] }>(
     POSTS_API_URL,
     fetcher,
     { fallbackData: initialData ? { posts: initialData } : undefined }
