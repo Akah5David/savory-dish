@@ -130,7 +130,7 @@ export default function HomePage() {
     }
 
     try {
-      const res = await fetch(`$BASE_URL/api/subscription`, {
+      const res = await fetch(`${BASE_URL}/api/subscription`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -256,7 +256,7 @@ export default function HomePage() {
                     ? `${p.attributes.readingTime} min read`
                     : "—",
                   date: p.attributes.date,
-                  image: p.attributes.image?.url || "",
+                  image: p.attributes.image || "",
                 }}
               />
             </motion.div>
