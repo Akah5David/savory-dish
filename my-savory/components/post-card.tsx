@@ -8,11 +8,11 @@ export type Post = {
   id: string;
   slug: string;
   title: string;
-  excerpt: string | null | [{ children: { type: string; text: string }[] }];
+  excerpt: string;
   category: string;
   date: string;
   readingTime: string;
-  image: { url: string };
+  image: string;
 };
 
 export function PostCard({ post }: { post: Post }) {
@@ -34,16 +34,14 @@ export function PostCard({ post }: { post: Post }) {
     >
       <Link href={`/blog/${post.slug}`} className="block">
         {/* Using placeholder image utility per guidelines */}
-        {post.image?.url ? (
-          <img
-            src={post.image.url}
-            alt={post.title}
-            className="h-48 w-full object-cover"
-            loading="lazy"
-          />
-        ) : (
-          <div className="h-48 w-full bg-gray-200" /> // fallback
-        )}
+
+        <img
+          src={post.image}
+          alt={post.title}
+          className="h-48 w-full object-cover"
+          loading="lazy"
+        />
+
         <div className="p-4 space-y-2">
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <span className="rounded-full bg-accent/40 text-accent-foreground px-2 py-0.5">
@@ -59,15 +57,7 @@ export function PostCard({ post }: { post: Post }) {
           </h3>
           <p className="text-sm text-muted-foreground line-clamp-2">
             <p className="text-sm text-muted-foreground line-clamp-2">
-              {Array.isArray(post.excerpt)
-                ? post.excerpt
-                    .map((block) =>
-                      block.children?.map((child) => child.text).join(" ")
-                    )
-                    .join(" ")
-                : typeof post.excerpt === "string"
-                ? post.excerpt
-                : ""}
+              {post.excerpt}
             </p>
           </p>
         </div>
