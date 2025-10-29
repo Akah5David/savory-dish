@@ -17,38 +17,47 @@ export const fetcher = async (url: string) => {
   const response = await fetch(url);
   const resData = await response.json();
 
-  console.log("Fetching data from Strapi v5 API:", resData);
+  console.log("Raw Strapi response:", resData);
 
   const formattedData = resData.data.map((item: any) => {
-    const createdAt = formDateForClient(
-      item.createdAt ?? new Date().toISOString()
-    );
+    // Handle both possible shapes (flattened or nested attributes)
+    const data = item.attributes ?? item;
 
-    // Extract plain text from rich text (excerpt)
-    const excerptText = Array.isArray(item.excerpt)
-      ? item.excerpt
+    const createdAt =
+      data.createdAt || item.createdAt || new Date().toISOString();
+
+    const excerptValue = data.excerpt ?? item.excerpt;
+    const excerptText = Array.isArray(excerptValue)
+      ? excerptValue
           .map((block: any) =>
             block.children?.map((child: any) => child.text).join(" ")
           )
           .join(" ")
+      : typeof excerptValue === "string"
+      ? excerptValue
       : "";
+
+    const imageData =
+      data.image?.data?.attributes?.url || data.image?.url || item.image || "";
+
+    const imageUrl = imageData.startsWith("http")
+      ? imageData
+      : `${BASE_URL}${imageData}`;
 
     return {
       id: item.id,
-      slug: item.slug,
-      title: item.title,
+      slug: data.slug,
+      title: data.title,
       excerpt: excerptText,
-      category: item.category,
-      date: createdAt,
-      readingTime: item.readingTime ? `${item.readingTime} min read` : "—",
-      image: item.image?.url ? `${BASE_URL}${item.image.url}` : "",
+      category: data.category,
+      date: formDateForClient(createdAt),
+      readingTime: data.readingTime ? `${data.readingTime} min read` : "—",
+      image: imageUrl,
     };
   });
 
   console.log("Formatted Data:", formattedData);
   return { posts: formattedData };
 };
-
-console.log("This is the output from fetcher function", fetcher);
 
 export const POSTS_API_URL = `${BASE_URL}/api/delicacies?populate=*`;

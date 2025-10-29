@@ -2,25 +2,43 @@
 
 import useSWR from "swr";
 import React, { use, useMemo, useState, useRef, useEffect } from "react";
-import { type Post, PostCard } from "./post-card";
+import { PostCard } from "./post-card";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
-import { fetcher, POSTS_API_URL } from "@/data/posts";
+import { fetcher, POSTS_API_URL, BASE_URL } from "@/data/posts";
 
-export function BlogBrowser() {
+type Post = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  category: string;
+  date: string;
+  readingTime: string;
+  image: string;
+};
+
+export function BlogBrowser({
+  initialData,
+}: {
+  initialData?: { data: Post[] };
+}) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("");
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]);
   const reduce = useReducedMotion();
   const queryRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  console.log("Initial Data in Blog Browser", initialData);
+
   const { data, isLoading } = useSWR<{ posts: Post[] }>(POSTS_API_URL, fetcher);
+
   console.log("Data in Blog Browser", data);
 
   useEffect(() => {
     if (data?.posts) {
-      setFilteredPosts(data?.posts); // "All" should show everything by default
+      setFilteredPosts(data?.posts ?? []); // "All" should show everything by default
     }
   }, [data?.posts]);
 
@@ -124,7 +142,9 @@ export function BlogBrowser() {
                     slug: post.slug,
                     excerpt: post.excerpt,
                     category: post.category,
-                    readingTime: post.readingTime,
+                    readingTime: post.readingTime
+                      ? `${post.readingTime} min read`
+                      : "—",
                     date: post.date,
                     image: post.image || "",
                   }}
@@ -137,3 +157,5 @@ export function BlogBrowser() {
     </section>
   );
 }
+
+//[{ type: string; children: [{ type: string; text: string }] } ]

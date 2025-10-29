@@ -1,23 +1,36 @@
 "use client";
 import useSWR from "swr";
 
-import { fetcher, POSTS_API_URL } from "@/data/posts";
-import { type Post, PostCard } from "@/components/post-card";
+import { fetcher, POSTS_API_URL, BASE_URL } from "@/data/posts";
+import { PostCard } from "@/components/post-card";
 import Link from "next/link";
 import { PageTransition } from "@/components/page-transition";
+
+export type Post = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: [{ type: string; children: [{ type: string; text: string }] }];
+  category: string;
+  date: string;
+  readingTime: string;
+  image: { url: string };
+};
+
+interface Posts {
+  data: Post[];
+}
 
 export default function ClientRecipes({
   initialData,
 }: {
-  initialData?: Post[];
+  initialData?: Posts;
 }) {
-  const { data, isLoading } = useSWR<{ posts: Post[] }>(
-    POSTS_API_URL,
-    fetcher,
-    { fallbackData: initialData ? { posts: initialData } : undefined }
-  );
+  const { data, isLoading } = useSWR<{ posts: Posts }>(POSTS_API_URL, fetcher, {
+    fallbackData: initialData ? { posts: initialData } : undefined,
+  });
 
-  console.log("data posted for recipe : ", data?.posts);
+  console.log("data posted for recipe : ", data?.posts?.data);
   return (
     <>
       {isLoading ? (
@@ -35,18 +48,24 @@ export default function ClientRecipes({
               </Link>
             </header>
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {data?.posts.map((p) => (
+              {data?.posts?.data.map((p) => (
                 <PostCard
                   key={p.id}
                   post={{
                     id: p.id, // use documentId as id
                     title: p.title,
                     slug: p.slug,
-                    excerpt: p.excerpt,
+                    excerpt: p.excerpt
+                      ?.map((block) =>
+                        block.children?.map((child) => child.text).join(" ")
+                      )
+                      .join(" "),
                     category: p.category,
-                    readingTime: p.readingTime,
+                    readingTime: p.readingTime
+                      ? `${p.readingTime} min read`
+                      : "—",
                     date: p.date,
-                    image: p.image || "",
+                    image: `${BASE_URL}${p.image?.url}` || "",
                   }}
                 />
               ))}

@@ -9,8 +9,15 @@ export default async function RecipesPage() {
   const res = await fetch(POSTS_API_URL, {
     next: { revalidate: 10 },
   });
-  const resData = await res.json();
-  console.log("Recipes Page API output", resData.data);
 
-  return <ClientRecipes initialData={resData.data} />;
+  if (!res.ok) {
+    throw new Error("Failed to fetch recipes");
+  }
+
+  console.log("Recipes Page API output", res);
+
+  const resData = await res.json();
+  console.log("Recipes Page API output", resData);
+
+  return <ClientRecipes initialData={resData} />;
 }
