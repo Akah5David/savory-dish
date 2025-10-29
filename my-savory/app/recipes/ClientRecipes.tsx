@@ -10,11 +10,11 @@ export type Post = {
   id: string;
   slug: string;
   title: string;
-  excerpt: string;
+  excerpt: [{ children: [{ type: string; text: string }] }];
   category: string;
   date: string;
   readingTime: string;
-  image: string;
+  image: { url: string };
 };
 
 export default function ClientRecipes({
@@ -22,13 +22,13 @@ export default function ClientRecipes({
 }: {
   initialData?: Post[];
 }) {
-  const { data, isLoading } =  useSWR<{ posts: Post[] }>(
+  const { data, isLoading } = useSWR<{ posts: Post[] }>(
     POSTS_API_URL,
     fetcher,
     { fallbackData: initialData ? { posts: initialData } : undefined }
   );
 
-  console.log("data.posts : ", data?.posts);
+  console.log("data posted for recipe : ", data?.posts);
   return (
     <>
       {isLoading ? (
