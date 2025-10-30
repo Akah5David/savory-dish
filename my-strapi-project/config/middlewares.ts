@@ -7,7 +7,11 @@ export default [
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          "connect-src": ["'self'", "https://savory-dish-hi42.vercel.app/"],
+          "connect-src": [
+            "'self'",
+            "https://funny-authority-3c58098ae3.strapiapp.com",
+            "https://savory-dish-hi42.vercel.app/",
+          ],
         },
       },
     },
@@ -15,7 +19,7 @@ export default [
   {
     name: "strapi::cors",
     config: {
-      origin: ["https://savory-dish-hi42.vercel.app/"], // ✅ only allow your frontend
+      origin: ["https://savory-dish-hi42.vercel.app/", "http://localhost:3000"], // ✅ only allow your frontend
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       headers: ["Content-Type", "Authorization"],
       credentials: true,
