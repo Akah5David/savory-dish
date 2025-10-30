@@ -12,7 +12,7 @@ interface ImageFormats {
   height: number;
 }
 
-console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+console.log("API URL:", process.env.NEXT_PUBLIC_STRAPI_BASE_URL);
 
 interface Image {
   id: number;
