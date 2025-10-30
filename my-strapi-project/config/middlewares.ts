@@ -7,7 +7,7 @@ export default [
       contentSecurityPolicy: {
         useDefaults: true,
         directives: {
-          "connectSrc": [
+          "connect-src": [
             "'self'",
             "https://funny-authority-3c58098ae3.strapiapp.com",
             "https://savory-dish-hi42-david-akahs-projects.vercel.app",
