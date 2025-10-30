@@ -10,7 +10,7 @@ export default [
           "connect-src": [
             "'self'",
             "https://funny-authority-3c58098ae3.strapiapp.com",
-            "https://savory-dish-hi42.vercel.app/",
+            "https://savory-dish-hi42-david-akahs-projects.vercel.app/",
           ],
         },
       },
@@ -19,7 +19,7 @@ export default [
   {
     name: "strapi::cors",
     config: {
-      origin: ["https://savory-dish-hi42.vercel.app/", "http://localhost:3000"], // ✅ only allow your frontend
+      origin: ["https://savory-dish-hi42-david-akahs-projects.vercel.app/", "http://localhost:3000"], // ✅ only allow your frontend
       methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
       headers: ["Content-Type", "Authorization"],
       credentials: true,
