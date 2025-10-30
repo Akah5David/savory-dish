@@ -12,6 +12,8 @@ interface ImageFormats {
   height: number;
 }
 
+console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+
 interface Image {
   id: number;
   name: string;
