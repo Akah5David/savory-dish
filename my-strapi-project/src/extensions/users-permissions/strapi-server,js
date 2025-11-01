@@ -1,0 +1,18 @@
+const { createCoreRouter } = require('@strapi/strapi').factories;
+
+module.exports = (plugin) => {
+  const jwtService = strapi.plugins['users-permissions'].services.jwt;
+  const originalIssue = jwtService.issue;
+
+  jwtService.issue = (payload, options = {}) => {
+    return originalIssue(
+      {
+        ...payload,
+        iss: process.env.STRAPI_URL || 'http://localhost:1337',
+      },
+      options
+    );
+  };
+
+  return plugin;
+};
