@@ -91,7 +91,7 @@ async function fetchDelicacies(): Promise<Delicacy[]> {
         excerpt: attrs.excerpt,
         readingTime: attrs.readingTime,
         category: attrs.category,
-        image: BASE_URL + attrs.image?.url, //
+        image: attrs.image?.url, //
         date: formatDate(createdAt), // format date for client
       },
     };
