@@ -1,7 +1,7 @@
 export default {
   routes: [
     {
-      method: "PUT",
+      method: "POST",
       path: "/update",
       handler: "update.update",
       config: {
