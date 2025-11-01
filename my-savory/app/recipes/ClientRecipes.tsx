@@ -10,27 +10,28 @@ export type Post = {
   id: string;
   slug: string;
   title: string;
-  excerpt: [{ type: string; children: [{ type: string; text: string }] }];
+  excerpt: string;
   category: string;
   date: string;
   readingTime: string;
-  image: { url: string };
+  image: string;
 };
-
-interface Posts {
-  data: Post[];
-}
 
 export default function ClientRecipes({
   initialData,
 }: {
-  initialData?: Posts;
+  initialData?: Post[];
 }) {
-  const { data, isLoading } = useSWR<{ posts: Posts }>(POSTS_API_URL, fetcher, {
-    fallbackData: initialData ? { posts: initialData } : undefined,
-  });
+  const { data, isLoading } = useSWR<{ posts: Post[] }>(
+    POSTS_API_URL,
+    fetcher,
+    {
+      fallbackData: initialData ? { posts: initialData } : undefined,
+    }
+  );
 
-  console.log("data posted for recipe : ", data?.posts?.data);
+  console.log("data posted for recipe :", data ?? "loading...");
+
   return (
     <>
       {isLoading ? (
@@ -48,24 +49,18 @@ export default function ClientRecipes({
               </Link>
             </header>
             <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {data?.posts?.data.map((p) => (
+              {data?.posts?.map((p) => (
                 <PostCard
                   key={p.id}
                   post={{
                     id: p.id, // use documentId as id
                     title: p.title,
                     slug: p.slug,
-                    excerpt: p.excerpt
-                      ?.map((block) =>
-                        block.children?.map((child) => child.text).join(" ")
-                      )
-                      .join(" "),
+                    excerpt: p.excerpt,
                     category: p.category,
-                    readingTime: p.readingTime
-                      ? `${p.readingTime} min read`
-                      : "—",
+                    readingTime: p.readingTime,
                     date: p.date,
-                    image: `${BASE_URL}${p.image?.url}` || "",
+                    image: p.image || "",
                   }}
                 />
               ))}

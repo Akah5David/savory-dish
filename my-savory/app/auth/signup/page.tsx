@@ -63,7 +63,7 @@ export default function SignUp() {
       process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
 
     try {
-      const response = await fetch(`${BASE_URL}/api/signup`, {
+      const response = await fetch(`${BASE_URL}/api/auth/local/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

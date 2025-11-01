@@ -1,5 +1,7 @@
 "use client";
 
+console.log("🎯 create() controller hit!");
+
 import { useState, type FormEvent, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -15,12 +17,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-
 interface FormData {
   title: string;
   excerpt: string;
   category: string;
 }
+
+console.log("API URL:", process.env.NEXT_PUBLIC_STRAPI_BASE_URL);
 
 export default function NewPostPage() {
   const router = useRouter();

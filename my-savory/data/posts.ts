@@ -1,4 +1,5 @@
-const formDateForClient = (date: string): string => {
+// Utility function to format dates based on user locale
+const formatDateForClient = (date: string): string => {
   const d = new Date(date);
   const userLocale = navigator.language || "en-US";
 
@@ -10,23 +11,24 @@ const formDateForClient = (date: string): string => {
   });
 };
 
+// Base URL (environment-aware)
 export const BASE_URL =
   process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
 
+// Fetcher function for Strapi v5
 export const fetcher = async (url: string) => {
   const response = await fetch(url);
+  if (!response.ok) throw new Error(`Failed to fetch: ${response.status}`);
+  
   const resData = await response.json();
+  console.log("Raw Strapi v5 response:", resData);
 
-  console.log("Raw Strapi response:", resData);
-
+  // Strapi v5: data is already flattened (no more attributes nesting)
   const formattedData = resData.data.map((item: any) => {
-    // Handle both possible shapes (flattened or nested attributes)
-    const data = item.attributes ?? item;
+    const createdAt = item.createdAt || new Date().toISOString();
 
-    const createdAt =
-      data.createdAt || item.createdAt || new Date().toISOString();
-
-    const excerptValue = data.excerpt ?? item.excerpt;
+    // Handle excerpt (Rich Text / Blocks)
+    const excerptValue = item.excerpt;
     const excerptText = Array.isArray(excerptValue)
       ? excerptValue
           .map((block: any) =>
@@ -37,27 +39,27 @@ export const fetcher = async (url: string) => {
       ? excerptValue
       : "";
 
-    const imageData =
-      data.image?.data?.attributes?.url || data.image?.url || item.image || "";
-
+    // Handle image (media)
+    const imageData = item.image?.url || item.image?.data?.attributes?.url || "";
     const imageUrl = imageData.startsWith("http")
       ? imageData
       : `${BASE_URL}${imageData}`;
 
     return {
       id: item.id,
-      slug: data.slug,
-      title: data.title,
+      slug: item.slug,
+      title: item.title,
       excerpt: excerptText,
-      category: data.category,
-      date: formDateForClient(createdAt),
-      readingTime: data.readingTime ? `${data.readingTime} min read` : "—",
+      category: item.category,
+      date: formatDateForClient(createdAt),
+      readingTime: item.readingTime ? `${item.readingTime} min read` : "—",
       image: imageUrl,
     };
   });
 
-  console.log("Formatted Data:", formattedData);
+  console.log("Formatted Data (v5):", formattedData);
   return { posts: formattedData };
 };
 
+// Strapi v5 API endpoint (still supports populate)
 export const POSTS_API_URL = `${BASE_URL}/api/delicacies?populate=*`;

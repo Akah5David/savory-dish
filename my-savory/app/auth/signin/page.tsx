@@ -45,8 +45,10 @@ export default function SignIn() {
     const BASE_URL =
       process.env.NEXT_PUBLIC_STRAPI_BASE_URL || "http://localhost:1337";
 
+    console.log("THIS IS THE BASE URL I USE FOR SIGN UP", BASE_URL);
+
     try {
-      const response = await fetch(`${BASE_URL}/api/login`, {
+      const response = await fetch(`${BASE_URL}/api/auth/local`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,12 +67,10 @@ export default function SignIn() {
         return;
       }
       console.log("Token from localStorage:", result);
-      console.log(
-        "THIS IS THE BASE URL I USE FOR SIGN UP",
-        process.env.NEXT_PUBLIC_STRAPI_BASE_URL
-      );
+
       if (result.jwt) {
         localStorage.setItem("authToken", result.jwt);
+        console.log("JWT token stored in localStorage", result.jwt);
         login();
       }
 
