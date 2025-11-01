@@ -173,7 +173,7 @@ export default function UpdateDelicacy({
         throw new Error("Authentication required. Please log in first.");
 
       const response = await fetch(`${BASE_URL}/api/update`, {
-        method: "PUT",
+        method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
         },
