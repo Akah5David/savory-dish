@@ -3,6 +3,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     async create(ctx) {
         try {
+            // Get the token from the Authorization header
+            const authHeader = ctx.request.header.authorization;
+            if (authHeader) {
+                console.log("🔑 Token received from frontend:", authHeader);
+            }
+            else {
+                console.log("❌ No token found in request headers");
+            }
             const { user } = ctx.state; // Authenticated user
             if (!user) {
                 return ctx.unauthorized("You must be logged in to create a delicacy");
