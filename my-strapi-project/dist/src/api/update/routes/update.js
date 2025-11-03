@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = {
     routes: [
         {
-            method: "PUT",
+            method: "POST",
             path: "/update",
             handler: "update.update",
             config: {
