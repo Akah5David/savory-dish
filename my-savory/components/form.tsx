@@ -101,6 +101,7 @@ export default function Form({
         >
           Submit
         </button>
+        <a href = "/" className = "text-center underline text-blue-600">Go back to homepage</a>
         {message && <p className="mt-2 text-sm text-green-600">{message}</p>}
       </form>
     </div>

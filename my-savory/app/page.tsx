@@ -167,7 +167,7 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
-              <p className="text-sm text-accent-foreground/80">
+              <p className="text-2xl text-accent-foreground/80">
                 A food journal
               </p>
               <h1 className="mt-2 font-serif text-4xl md:text-5xl text-balance">
@@ -204,7 +204,7 @@ export default function HomePage() {
               transition={{ duration: 0.45, ease: "easeOut" }}
             >
               <img
-                src={"/upload/rusty-table.png"}
+                src={"/upload/savy.png"}
                 alt="A rustic table with seasonal ingredients"
                 className="h-full w-full object-cover"
               />
@@ -238,33 +238,36 @@ export default function HomePage() {
             show: { transition: { staggerChildren: 0.08 } },
           }}
         >
-          {featured.map((p) => {
-            console.log("Rendering featured values:", featured);
-            return(
-            <motion.div
-              key={p.id}
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                show: { opacity: 1, y: 0 },
-              }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-            >
-              <PostCard
-                post={{
-                  id: p.id, // use documentId as id
-                  title: p.attributes.title,
-                  slug: p.attributes.slug,
-                  excerpt: extractTextFromRichText(p.attributes.excerpt),
-                  category: p.attributes.category,
-                  readingTime: p.attributes.readingTime
-                    ? `${p.attributes.readingTime} min read`
-                    : "—",
-                  date: p.attributes.date,
-                  image: p.attributes.image || "",
-                }}
-              />
-            </motion.div>
-          )})}
+          {featured
+            ?.sort(() => Math.random() - 0.5)
+            .map((p) => {
+              console.log("Rendering featured values:", featured);
+              return (
+                <motion.div
+                  key={p.id}
+                  variants={{
+                    hidden: { opacity: 0, y: 10 },
+                    show: { opacity: 1, y: 0 },
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <PostCard
+                    post={{
+                      id: p.id, // use documentId as id
+                      title: p.attributes.title,
+                      slug: p.attributes.slug,
+                      excerpt: extractTextFromRichText(p.attributes.excerpt),
+                      category: p.attributes.category,
+                      readingTime: p.attributes.readingTime
+                        ? `${p.attributes.readingTime} min read`
+                        : "—",
+                      date: p.attributes.date,
+                      image: p.attributes.image || "",
+                    }}
+                  />
+                </motion.div>
+              );
+            })}
         </motion.div>
       </section>
 
