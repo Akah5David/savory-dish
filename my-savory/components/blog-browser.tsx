@@ -76,7 +76,7 @@ export function BlogBrowser({
       e.target.value.toLowerCase() === ""
         ? data?.posts ?? []
         : (data?.posts ?? []).filter(
-            (post) => post.category === e.target.value.toLowerCase()
+            (post) => post.category.toLowerCase() === e.target.value.toLowerCase()
           );
     setFilteredPosts(filtered);
   }
