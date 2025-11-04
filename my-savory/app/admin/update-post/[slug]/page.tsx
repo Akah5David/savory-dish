@@ -168,7 +168,22 @@ export default function UpdateDelicacy({
         formDataToSend.append("files", image);
       }
 
+      // Keep the image field consistent even if not changed
+      if (!image || imagePreview) {
+        // This signals to Strapi that the existing image should remain
+        formDataToSend.append("files.image", "");
+        formDataToSend.append("files", "");
+      }
+
+      console.log(
+        "Submitting update for delicacy ID:",
+        delicacyId,
+        " with data: ",
+        formDataToSend
+      );
+
       const token = localStorage.getItem("authToken");
+
       if (!token)
         throw new Error("Authentication required. Please log in first.");
 

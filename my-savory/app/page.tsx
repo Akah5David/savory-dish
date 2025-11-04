@@ -238,7 +238,9 @@ export default function HomePage() {
             show: { transition: { staggerChildren: 0.08 } },
           }}
         >
-          {featured.map((p) => (
+          {featured.map((p) => {
+            console.log("Rendering featured values:", featured);
+            return(
             <motion.div
               key={p.id}
               variants={{
@@ -262,7 +264,7 @@ export default function HomePage() {
                 }}
               />
             </motion.div>
-          ))}
+          )})}
         </motion.div>
       </section>
 
