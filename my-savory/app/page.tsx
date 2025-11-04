@@ -108,7 +108,8 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchDelicacies().then((data) => {
-      setFeatured(data.slice(0, 3)); // first 3 featured posts
+      setFeatured(data?.sort(() => Math.random() - 0.5) // shuffle the array randomly
+  .slice(0, 3)); // first 3 featured posts
     });
     console.log("useEffect featured", featured);
   }, []);
