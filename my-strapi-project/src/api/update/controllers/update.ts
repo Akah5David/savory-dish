@@ -31,7 +31,6 @@ export default {
       if (!data.title || !data.title.trim()) errors.push("Title is required");
       if (!data.excerpt) errors.push("Excerpt is required");
       if (!data.category) errors.push("Category is required");
-      if (!imageFile) errors.push("Image is required");
 
       //backend safeguard validation for 'excerpt'
       if (typeof data.excerpt === "string") {
@@ -61,19 +60,22 @@ export default {
       }
 
       // Upload image
-      const uploadedFiles = await strapi
-        .plugin("upload")
-        .service("upload")
-        .upload({
-          data: {
-            fileInfo: {
-              alternativeText: data.title || "Uploaded image",
-              caption: data.excerpt || "",
-              name: imageFile.originalFilename || "image",
+      let uploadedFiles = [];
+      if (imageFile) {
+        uploadedFiles = await strapi
+          .plugin("upload")
+          .service("upload")
+          .upload({
+            data: {
+              fileInfo: {
+                alternativeText: data.title || "Uploaded image",
+                caption: data.excerpt || "",
+                name: imageFile.originalFilename || "image",
+              },
             },
-          },
-          files: imageFile,
-        });
+            files: imageFile,
+          });
+      }
 
       // Helper to generate slug
       function generateSlug(str: string) {
